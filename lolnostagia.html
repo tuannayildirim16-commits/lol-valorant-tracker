@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>LOL NOSTAJİ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="lolnostagia">
+
+    <!-- En Üstteki Sabit Başlık -->
+    <h1>LOL NOSTAJİ</h1>
+
+    <!-- Sekme Butonları -->
+    <div class="sekme-menu">
+        <button class="sekme-btn aktif" onclick="sekmeDegis(event, 'itemler')">Eski İtemler</button>
+        <button class="sekme-btn" onclick="sekmeDegis(event, 'sampiyonlar')">Eski Şampiyonlar</button>
+        <button class="sekme-btn" onclick="sekmeDegis(event, 'haritalar')">Eski Haritalar</button>
+    </div>
+
+    <!-- Parşömen Üzerindeki İçerik Kutusu -->
+    <div class="parsecmen-kutu">
+
+        <!-- 1. Eski İtemler Sekmesi -->
+        <div id="itemler" class="sekme-icerik aktif-icerik">
+            <h2>Efsanevi Eski İtemler</h2>
+            <p>Üzerine geldiğinde nostaljik özelliklerini görebileceğin efsanevi itemler:</p>
+
+            <!-- JavaScript ile otomatik dolacak item alanı -->
+            <div class="item-grid" id="item-listesi-kapsayici"></div>
+        </div>
+
+        <!-- 2. Eski Şampiyonlar Sekmesi -->
+        <div id="sampiyonlar" class="sekme-icerik">
+            <h2>Eski Şampiyon Yetenekleri ve Görselleri</h2>
+            <p>AP Yi, eski Katarina, Sion'un AP günleri ve eski metadaki şampiyon tasarımları burada sergilenecek.</p>
+        </div>
+
+        <!-- 3. Eski Haritalar Sekmesi -->
+        <div id="haritalar" class="sekme-icerik">
+            <h2>Eski Vadiler ve Modlar</h2>
+            <p>Twisted Treeline (Uğursuz Koruluk), Dominion (Dominion Modu) ve eski Sihirdar Vadisi görselleri burada bulunacak.</p>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Kısım -->
+    <script>
+        // Tüm itemlerin kararlı yama sürümleriyle güncellenmiş tam veritabanı
+        const eskiItemler = [
+            {
+                ad: "Abyssal Scepter",
+                resim: "https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/3001.png",
+                aciklama: "Yakındaki rakip şampiyonların büyü direncini azaltan klasik AP/Tank itemi."
+            },
+            {
+                ad: "Adaptive Helm",
+                resim: "https://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/4203.png",
+                aciklama: "Aynı yetenek veya büyüden art arda alınan hasarı azaltan tank savunma itemi."
+            },
+            {
+                ad: "Athene's Unholy Grail",
+                resim: "https://ddragon.leagueoflegends.com/cdn/10.22.1/img/item/3174.png",
+                aciklama: "Verilen hasara göre depoladığı kanı dost şampiyonları iyileştirmek için kullanan destek itemi."
+            },
+            {
+                ad: "Atma's Impaler",
+                resim: "https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/3184.png",
+                aciklama: "Maksimum can değerinin bir kısmını Saldırı Gücüne (AD) çeviren efsanevi bruiser itemi."
+            },
+            {
+                ad: "Avarice Blade",
+                resim: "https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/3093.png",
+                aciklama: "Her minyon kesişinde ekstra altın vererek 'Açgözlülük' simgesi olan kritik itemi."
+            },
+            {
+                ad: "Banner of Command",
+                resim: "https://ddragon.leagueoflegends.com/cdn/9.24.2/img/item/3069.png",
+                aciklama: "Minponları güçlendirerek üstlerine büyü bağışıklığı kazandıran kuşatma itemi."
+            },
+            {
+                ad: "Bilgewater Cutlass",
+                resim: "https://ddragon.leagueoflegends.com/cdn/10.23.1/img/item/3144.png",
+                aciklama: "Rakibi hem yavaşlatan hem de anlık hasar veren eski erken oyun sömürü kılıcı."
+            },
+            {
+                ad: "Deathfire Grasp (DFG)",
+                resim: "https://ddragon.leagueoflegends.com/cdn/5.1.1/img/item/3128.png",
+                aciklama: "Rakibin canının bir kısmını anında yok eden suikastçıların favori aktif itemi."
+            },
+            {
+                ad: "Force of Nature",
+                resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/4401.png",
+                aciklama: "Can yenilemesi ve hareket hızı kazandırırdı. Unutulmaz tank itemi!"
+            },
+            {
+                ad: "Heart of Gold",
+                resim: "https://ddragon.leagueoflegends.com/cdn/5.1.1/img/item/3026.png",
+                aciklama: "Saniye başına altın veren, her tankın ve destek oyuncusunun ilk çıktığı altın kasma itemi."
+            },
+            {
+                ad: "Leviathan",
+                resim: "https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/3142.png",
+                aciklama: "Skor aldıkça devasa can havuzu biriktiren tankların stacking itemi."
+            },
+            {
+                ad: "Madred's Bloodrazor",
+                resim: "https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/3153.png",
+                aciklama: "Rakibin maksimum canına bağlı büyü hasarı veren eski efsanevi saldırı hızı itemi."
+            },
+            {
+                ad: "Ohmwrecker",
+                resim: "https://ddragon.leagueoflegends.com/cdn/9.24.2/img/item/3056.png",
+                aciklama: "Kulelerin ateş etmesini geçici olarak durdurarak dalga baskını yapmayı sağlayan item."
+            },
+            {
+                ad: "Philosopher's Stone",
+                resim: "https://ddragon.leagueoflegends.com/cdn/5.1.1/img/item/3097.png",
+                aciklama: "Can ve mana yenilemesi yanında saniye başına altın kazandıran desteklerin vazgeçilmezi."
+            },
+            {
+                ad: "Sword of the Occult",
+                resim: "https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/3041.png",
+                aciklama: "Mejai'nin Kılıç versiyonu; skor aldıkça AD kazandıran riskli ve eğlenceli item."
+            },
+            {
+                ad: "Zephyr",
+                resim: "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/3172.png",
+                aciklama: "Saldırı hızı, hareket hızı, tenacity (sıvışma) ve bekleme süresinde azalma veren çok yönlü item."
+            },
+            {
+                ad: "Zz'Rot Portal",
+                resim: "https://ddragon.leagueoflegends.com/cdn/9.24.2/img/item/3512.png",
+                aciklama: "Koridora void yaratıkları salarak kule itmeyi sağlayan taktiksel strateji itemi."
+            }
+        ];
+
+        const kutu = document.getElementById("item-listesi-kapsayici");
+        kutu.innerHTML = "";
+
+        eskiItemler.forEach(item => {
+            kutu.innerHTML += `
+                <div class="item-karti">
+                    <img src="${item.resim}" alt="${item.ad}" style="width:60px; height:60px; border: 2px solid #7a5828; border-radius: 6px; background-color: #2b1d0c;" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3070.png';">
+                    <div class="tooltip-aciklama">
+                        <strong>${item.ad}</strong><br>
+                        ${item.aciklama}
+                    </div>
+                </div>
+            `;
+        });
+
+        function sekmeDegis(evt, icerikId) {
+            let icerikler = document.getElementsByClassName("sekme-icerik");
+            for (let i = 0; i < icerikler.length; i++) {
+                icerikler[i].classList.remove("aktif-icerik");
+            }
+
+            let butonlar = document.getElementsByClassName("sekme-btn");
+            for (let i = 0; i < butonlar.length; i++) {
+                butonlar[i].classList.remove("aktif");
+            }
+
+            document.getElementById(icerikId).classList.add("aktif-icerik");
+            evt.currentTarget.classList.add("aktif");
+        }
+    </script>
+</body>
+</html>

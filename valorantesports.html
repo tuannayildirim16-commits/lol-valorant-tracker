@@ -10,17 +10,27 @@
 
 <body class="valorantespor">
 
-    <div class="valorant-yayin-kutusu">
+    <!-- Yayın ve Sohbeti yan yana tutan ana kapsayıcı -->
+    <div class="espor-ana-kriter">
 
-        <!-- Twitch canlı yayın -->
-        <iframe src="https://player.twitch.tv/?channel=valorant&parent=localhost"
-                allowfullscreen>
-        </iframe>
+        <!-- Yayın Kutusu ve Çerçeve -->
+        <div class="valorant-yayin-kutusu">
+            <!-- Twitch canlı yayın -->
+            <iframe src="https://player.twitch.tv/?channel=valorant&parent=localhost"
+                    allowfullscreen>
+            </iframe>
 
-        <!-- Yayının etrafındaki frame -->
-        <img src="valorantframegptt.png"
-             alt="Valorant yayın çerçevesi"
-             class="valorant-frame">
+            <!-- Yayın etrafındaki frame (Resim yolunun doğruluğundan emin ol) -->
+            <img src="valorantframegptt.png" alt="Valorant yayın çerçevesi" class="valorant-frame">
+        </div>
+
+        <!-- Twitch Chat Kutusu -->
+        <div class="valorant-chat-kutusu">
+            <iframe src="https://www.twitch.tv/embed/valorant/chat?parent=localhost"
+                    height="550"
+                    width="350">
+            </iframe>
+        </div>
 
     </div>
 

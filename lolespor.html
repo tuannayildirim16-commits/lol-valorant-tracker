@@ -10,20 +10,26 @@
 
 <body class="lolespor">
 
-    <div class="lol-yayin-kutusu">
+    <!-- Yayın ve Sohbeti yan yana tutan ana kapsayıcı -->
+    <div class="espor-ana-kriter">
 
-        <!-- Twitch canlı yayın -->
-        <iframe src="https://player.twitch.tv/?channel=riotgames&parent=localhost"
-                allowfullscreen>
-        </iframe>
+        <!-- LOL Yayın Kutusu ve Çerçeven -->
+        <div class="lol-yayin-kutusu">
+            <iframe src="https://player.twitch.tv/?channel=riotgames&parent=localhost"
+                    allowfullscreen>
+            </iframe>
+            <img src="lolframe - Kopya.png" alt="LOL yayın çerçevesi" class="lol-frame">
+        </div>
 
-        <!-- Yayının etrafındaki frame -->
-        <img src="lolframe - Kopya.png"
-             alt="lol yayın çerçevesi"
-             class="lol-frame">
+        <!-- LOL Chat Kutusu -->
+        <div class="lol-chat-kutusu">
+            <iframe src="https://www.twitch.tv/embed/riotgames/chat?parent=localhost&darkpopout"
+                    height="550"
+                    width="350">
+            </iframe>
+        </div>
 
     </div>
 
 </body>
-
 </html>
