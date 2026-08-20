@@ -1,168 +1,277 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-    <meta charset="utf-8" />
-    <title>LOL NOSTAJİ</title>
+    <meta charset="UTF-8">
+    <title>LOL Nostalji</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="lolnostagia">
+<body class="lolnostalgia">
 
-    <!-- En Üstteki Sabit Başlık -->
-    <h1>LOL NOSTAJİ</h1>
-
-    <!-- Sekme Butonları -->
-    <div class="sekme-menu">
-        <button class="sekme-btn aktif" onclick="sekmeDegis(event, 'itemler')">Eski İtemler</button>
-        <button class="sekme-btn" onclick="sekmeDegis(event, 'sampiyonlar')">Eski Şampiyonlar</button>
-        <button class="sekme-btn" onclick="sekmeDegis(event, 'haritalar')">Eski Haritalar</button>
+    <div style="text-align: center; margin: 20px 0;">
+        <button class="sekme-btn" onclick="sekmeDegis(event, 'eski-itemler-icerik')">Eski İtemler</button>
+        <button class="sekme-btn aktif" onclick="sekmeDegis(event, 'eski-sampiyonlar-icerik')">Eski Şampiyonlar</button>
+        
     </div>
 
-    <!-- Parşömen Üzerindeki İçerik Kutusu -->
-    <div class="parsecmen-kutu">
-
-        <!-- 1. Eski İtemler Sekmesi -->
-        <div id="itemler" class="sekme-icerik aktif-icerik">
-            <h2>Efsanevi Eski İtemler</h2>
-            <p>Üzerine geldiğinde nostaljik özelliklerini görebileceğin efsanevi itemler:</p>
-
-            <!-- JavaScript ile otomatik dolacak item alanı -->
-            <div class="item-grid" id="item-listesi-kapsayici"></div>
-        </div>
-
-        <!-- 2. Eski Şampiyonlar Sekmesi -->
-        <div id="sampiyonlar" class="sekme-icerik">
-            <h2>Eski Şampiyon Yetenekleri ve Görselleri</h2>
-            <p>AP Yi, eski Katarina, Sion'un AP günleri ve eski metadaki şampiyon tasarımları burada sergilenecek.</p>
-        </div>
-
-        <!-- 3. Eski Haritalar Sekmesi -->
-        <div id="haritalar" class="sekme-icerik">
-            <h2>Eski Vadiler ve Modlar</h2>
-            <p>Twisted Treeline (Uğursuz Koruluk), Dominion (Dominion Modu) ve eski Sihirdar Vadisi görselleri burada bulunacak.</p>
-        </div>
-
+    <!-- Eski İtemler Sekmesi -->
+    <div id="eski-itemler-icerik" class="sekme-icerik">
+        <h2 style="text-align: center; margin-bottom: 15px; color: black; font-family: serif;">Efsanevi Eski İtemler</h2>
+        <div id="item-listesi-kapsayici" class="item-grid"></div>
     </div>
 
-    <!-- JavaScript Kısım -->
+    <!-- Eski Şampiyonlar Sekmesi -->
+    <div id="eski-sampiyonlar-icerik" class="sekme-icerik aktif-icerik">
+        <div class="champ-select-container">
+            <!-- Sol Kısım: Şampiyon Izgarası -->
+            <div class="champ-grid-section">
+                <div class="champ-grid" id="champGrid">
+                    <!-- Şampiyonlar JavaScript ile buraya yüklenecek -->
+                </div>
+            </div>
+
+            <!-- Sağ Kısım: Seçilen Şampiyon Önizleme Paneli -->
+            <div class="champ-preview-panel">
+                <div class="preview-banner">ŞAMPİYONUNU ŞEÇ</div>
+                <div class="preview-img-container" style="width: 140px; height: 140px; margin: 0 auto; border-radius: 6px; overflow: hidden; border: 2px solid #d9c49a; background: #000; display: flex; align-items: center; justify-content: center;">
+                    <img id="previewImg" src="" alt="Şampiyon Seçin" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </div>
+                <h2 id="previewName" style="margin-top: 15px;">Bir Şampiyon Seç</h2>
+                <p id="previewDesc">Seçtiğiniz eski sezon şampiyonunun detayları burada görünecek.</p>
+            </div>
+        </div>
+    </div>
+
+
     <script>
-        // Tüm itemlerin kararlı yama sürümleriyle güncellenmiş tam veritabanı
         const eskiItemler = [
-            {
-                ad: "Abyssal Scepter",
-                resim: "https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/3001.png",
-                aciklama: "Yakındaki rakip şampiyonların büyü direncini azaltan klasik AP/Tank itemi."
-            },
-            {
-                ad: "Adaptive Helm",
-                resim: "https://ddragon.leagueoflegends.com/cdn/11.24.1/img/item/4203.png",
-                aciklama: "Aynı yetenek veya büyüden art arda alınan hasarı azaltan tank savunma itemi."
-            },
-            {
-                ad: "Athene's Unholy Grail",
-                resim: "https://ddragon.leagueoflegends.com/cdn/10.22.1/img/item/3174.png",
-                aciklama: "Verilen hasara göre depoladığı kanı dost şampiyonları iyileştirmek için kullanan destek itemi."
-            },
-            {
-                ad: "Atma's Impaler",
-                resim: "https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/3184.png",
-                aciklama: "Maksimum can değerinin bir kısmını Saldırı Gücüne (AD) çeviren efsanevi bruiser itemi."
-            },
-            {
-                ad: "Avarice Blade",
-                resim: "https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/3093.png",
-                aciklama: "Her minyon kesişinde ekstra altın vererek 'Açgözlülük' simgesi olan kritik itemi."
-            },
-            {
-                ad: "Banner of Command",
-                resim: "https://ddragon.leagueoflegends.com/cdn/9.24.2/img/item/3069.png",
-                aciklama: "Minponları güçlendirerek üstlerine büyü bağışıklığı kazandıran kuşatma itemi."
-            },
-            {
-                ad: "Bilgewater Cutlass",
-                resim: "https://ddragon.leagueoflegends.com/cdn/10.23.1/img/item/3144.png",
-                aciklama: "Rakibi hem yavaşlatan hem de anlık hasar veren eski erken oyun sömürü kılıcı."
-            },
-            {
-                ad: "Deathfire Grasp (DFG)",
-                resim: "https://ddragon.leagueoflegends.com/cdn/5.1.1/img/item/3128.png",
-                aciklama: "Rakibin canının bir kısmını anında yok eden suikastçıların favori aktif itemi."
-            },
-            {
-                ad: "Force of Nature",
-                resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/4401.png",
-                aciklama: "Can yenilemesi ve hareket hızı kazandırırdı. Unutulmaz tank itemi!"
-            },
-            {
-                ad: "Heart of Gold",
-                resim: "https://ddragon.leagueoflegends.com/cdn/5.1.1/img/item/3026.png",
-                aciklama: "Saniye başına altın veren, her tankın ve destek oyuncusunun ilk çıktığı altın kasma itemi."
-            },
-            {
-                ad: "Leviathan",
-                resim: "https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/3142.png",
-                aciklama: "Skor aldıkça devasa can havuzu biriktiren tankların stacking itemi."
-            },
-            {
-                ad: "Madred's Bloodrazor",
-                resim: "https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/3153.png",
-                aciklama: "Rakibin maksimum canına bağlı büyü hasarı veren eski efsanevi saldırı hızı itemi."
-            },
-            {
-                ad: "Ohmwrecker",
-                resim: "https://ddragon.leagueoflegends.com/cdn/9.24.2/img/item/3056.png",
-                aciklama: "Kulelerin ateş etmesini geçici olarak durdurarak dalga baskını yapmayı sağlayan item."
-            },
-            {
-                ad: "Philosopher's Stone",
-                resim: "https://ddragon.leagueoflegends.com/cdn/5.1.1/img/item/3097.png",
-                aciklama: "Can ve mana yenilemesi yanında saniye başına altın kazandıran desteklerin vazgeçilmezi."
-            },
-            {
-                ad: "Sword of the Occult",
-                resim: "https://ddragon.leagueoflegends.com/cdn/6.24.1/img/item/3041.png",
-                aciklama: "Mejai'nin Kılıç versiyonu; skor aldıkça AD kazandıran riskli ve eğlenceli item."
-            },
-            {
-                ad: "Zephyr",
-                resim: "https://ddragon.leagueoflegends.com/cdn/14.1.1/img/item/3172.png",
-                aciklama: "Saldırı hızı, hareket hızı, tenacity (sıvışma) ve bekleme süresinde azalma veren çok yönlü item."
-            },
-            {
-                ad: "Zz'Rot Portal",
-                resim: "https://ddragon.leagueoflegends.com/cdn/9.24.2/img/item/3512.png",
-                aciklama: "Koridora void yaratıkları salarak kule itmeyi sağlayan taktiksel strateji itemi."
-            }
+            { ad: "Rabadon's Deathcap", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3089.png", aciklama: "Toplam yetenek gücünü yüzde olarak artıran büyücü şapkası." },
+            { ad: "Infinity Edge", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3031.png", aciklama: "Kritik vuruş hasarını devasa oranlarda artıran nişancı kılıcı." },
+            { ad: "Warmog's Armor", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3084.png", aciklama: "Savaş dışında saniyeler içinde tam can dolduran tank zırhı." },
+            { ad: "Sunfire Aegis", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3068.png", aciklama: "Çevresindeki rakipleri sürekli olarak kavuran yanma zırhı." },
+            { ad: "Guardian Angel", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3026.png", aciklama: "Katledildiğinde şampiyonu hayata döndüren koruyucu melek." },
+            { ad: "Runaan's Hurricane", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3085.png", aciklama: "Normal saldırıların etraftaki rakiplere de vurmasını sağlayan eşya." },
+            { ad: "Luden's Tempest", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/6656.png", aciklama: "Yeteneklerle yük toplayıp hedefe ek patlama veren büyücü eşyası." },
+            { ad: "Lich Bane", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3100.png", aciklama: "Yetenek sonrası ilk normal vuruşu güçlendiren büyücü eşyası." },
+            { ad: "Nashor's Tooth", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3115.png", aciklama: "Saldırı hızı and yetenek gücünü birleştiren diş eşyası." },
+            { ad: "Black Cleaver", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3071.png", aciklama: "Fiziksel hasar verdikçe rakibin zırhını delen dövüşçü baltası." },
+            { ad: "Trinity Force", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3078.png", aciklama: "Pek çok özelliği bir arada sunan efsanevi üçlü kuvvet." },
+            { ad: "Blade of the Ruined King", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3153.png", aciklama: "Rakibin canına göre hasar verip yavaşlatan sömürü kılıcı." },
+            { ad: "Bloodthirster", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3072.png", aciklama: "Yüksek saldırı gücü and can çalma oranı sunan kan iştahı." },
+            { ad: "Rapid Firecannon", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3094.png", aciklama: "Menzilli şampiyonların saldırı menzilini artıran top atışı." },
+            { ad: "Titanic Hydra", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3748.png", aciklama: "Maksimum cana göre normal saldırılara alan hasarı ekleyen hidra." },
+            { ad: "Ravenous Hydra", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3074.png", aciklama: "Yakın dövüşçülerin minyon dalgalarını biçmesini sağlayan savurma gücü." },
+            { ad: "Wits End", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3091.png", aciklama: "Saldırı hızı and büyü hasarı ekleyen direnç kılıcı." },
+            { ad: "Maw of Malmortius", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3156.png", aciklama: "Can azaldığında büyü kalkanı oluşturan dövüşçü eşyası." },
+            { ad: "Sterak's Gage", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3053.png", aciklama: "Aşırı hasar alındığında devleşip kalkan kazandıran eldiven." },
+            { ad: "Death's Dance", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/6333.png", aciklama: "Alınan hasarı zamana yayan and hayatta kalmayı artıran dans." },
+            { ad: "Lord Dominik's Regards", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3036.png", aciklama: "Yüksek zırhlı hedeflere karşı ekstra delme sağlayan yay." },
+            { ad: "Mortal Reminder", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3033.png", aciklama: "Rakibin can yenilemesini and iyileşmesini azaltan keskin hatıra." },
+            { ad: "Essence Reaver", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3508.png", aciklama: "Yetenek sonrası normal vuruşlarda mana yenileyen nişancı eşyası." },
+            { ad: "Manamune", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3004.png", aciklama: "Yetenek kullandıkça yük toplayıp saldırı gücüne dönüşen balta." },
+            { ad: "Archangel's Staff", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3003.png", aciklama: "Devasa mana havuzu and yetenek gücü sağlayan başmelek asası." },
+            { ad: "Horizon Focus", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/4642.png", aciklama: "Uzaktan tutturulan yeteneklerde ekstra hasar veren odaklanma taşı." },
+            { ad: "Mejai's Soulstealer", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3041.png", aciklama: "Şampiyon katlettikçe yük toplayıp devasa AP veren riskli kitap." },
+            { ad: "Void Staff", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3135.png", aciklama: "Rakiplerin büyü direncini büyük oranda delen asa." },
+            { ad: "Shadowflame", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/4645.png", aciklama: "Düşük cana sahip hedeflere fazladan büyü hasarı veren alev." },
+            { ad: "Cosmic Drive", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/4629.png", aciklama: "Yetenek tutturanlara hareket hızı and yetenek hızı kazandıran motor." },
+            { ad: "Banshee's Veil", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3102.png", aciklama: "Üzerine gelen ilk rakip yeteneğini engelleyen büyü kalkanı." },
+            { ad: "Zhonya's Hourglass", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3157.png", aciklama: "Kullanıldığında şampiyonu hedef alınamaz and dokunulmaz kılan kum saati." },
+            { ad: "Morellonomicon", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3165.png", aciklama: "Rakiplerin iyileştirme gücünü kıran büyücü kitabı." },
+            { ad: "Demonic Embrace", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/4637.png", aciklama: "Yeteneklerle rakipleri yakarak zamanla can yakan iblis sarılması." },
+            { ad: "Riftmaker", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/4633.png", aciklama: "Savaşta kaldıkça hasarı artıran and can emilimi veren mihenk taşı." },
+            { ad: "Night Harvester", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/4636.png", aciklama: "İlk şampiyon temasında patlayarak ekstra hasar and hız veren eşya." },
+            { ad: "Hextech Rocketbelt", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3152.png", aciklama: "İleriye doğru atılmayı sağlayıp mermiler fırlatan roket kemeri." },
+            { ad: "Phantom Dancer", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3046.png", aciklama: "Birimlerin içinden geçmeyi sağlayan yüksek hız and kritik sunan dansöz." },
+            { ad: "Fiendish Codex", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3108.png", aciklama: "Yetenek hızı and güç kazandıran kadim kodeks." },
+            { ad: "Liandry's Anguish", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/6653.png", aciklama: "Canı yüksek rakipleri zamanla eriten ezici azap." },
+            { ad: "Frozen Heart", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3110.png", aciklama: "Yakındaki rakiplerin saldırı hızını yavaşlatan donmuş zırh." },
+            { ad: "Thornmail", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3075.png", aciklama: "Saldıranlara hasar iadesi yapıp iyileşmelerini engelleyen dikenli zırh." },
+            { ad: "Randuin's Omen", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3143.png", aciklama: "Kritik vuruş hasarını azaltıp etrafı yavaşlatan kehanet." },
+            { ad: "Spirit Visage", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3065.png", aciklama: "Alınan tüm iyileştirme and kalkan etkilerini artıran ruh gömleği." },
+            { ad: "Force of Nature", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/4401.png", aciklama: "Büyü hasarı aldıkça hareket hızı and direnç kazanan doğanın gücü." },
+            { ad: "Gargoyle Stoneplate", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3193.png", aciklama: "Devasa bir kalkan oluşturarak seni koruyan taş zırh." },
+            { ad: "Dead Man's Plate", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3742.png", aciklama: "Hareket ettikçe yük toplayıp sonraki vuruşta yavaşlatan zırh." },
+            { ad: "Knight's Vow", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3109.png", aciklama: "Bir dost şampiyonu koruyarak onun hasarını üstlenen yemin." },
+            { ad: "Redemption", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3107.png", aciklama: "Haritanın herhangi bir yerinden alanı iyileştiren kehanet." },
+            { ad: "Locket of the Iron Solari", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3190.png", aciklama: "Takım arkadaşlarına alan kalkanı veren güneş madalyonu." },
+            { ad: "Shurelya's Battlesong", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/2065.png", aciklama: "Yakındaki tüm takım arkadaşlarının hareket hızını uçuran şarkı." },
+            { ad: "Moonstone Renewer", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/6617.png", aciklama: "Savaş sırasında takım arkadaşlarını sürekli iyileştiren taş." },
+            { ad: "Flowing Water Staff", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/6616.png", aciklama: "İyileştirilen dostlara yetenek gücü and hız kazandıran asa." },
+            { ad: "Ardent Censer", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3504.png", aciklama: "Dostlara kalkan/can verildiğinde saldırı hızı kazandıran buhurdan." },
+            { ad: "Mikael's Blessing", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3222.png", aciklama: "Dostlardaki kitle kontrol etkilerini anında kaldıran kutsama." },
+            { ad: "Vigilant Wardstone", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/4643.png", aciklama: "Haritada ekstra totem taşıma kapasitesi veren göz taşı." },
+            { ad: "Umbral Glaive", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3179.png", aciklama: "Rakip totemlerini açığa çıkarıp tek vuruşta yok eden mızrak." },
+            { ad: "Prowler's Claw", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/6695.png", aciklama: "Rakiplerin arkasına hızlıca atılmayı sağlayan suikastçı pençesi." },
+            { ad: "Duskblade of Draktharr", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/6671.png", aciklama: "Katliam sonrası görünmezlik kazandıran karanlık kılıç." },
+            { ad: "Youmuu's Ghostblade", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3142.png", aciklama: "Aktif edildiğinde hayalet gibi hızlanıp koşturan kılıç." },
+            { ad: "Opportunity", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/6696.png", aciklama: "Çatışma dışındayken zırh deşme and hız kazandıran fırsat." },
+            { ad: "Serylda's Grudge", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/6693.png", aciklama: "Yeteneklerle rakipleri yavaşlatan and zırh delen kin." },
+            { ad: "Axiom Arc", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/6692.png", aciklama: "Şampiyon katlettikçe ulti bekleme süresini sıfırlayan yay." },
+            { ad: "Edge of Night", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3814.png", aciklama: "Üzerine gelen ilk rakip yeteneğini engelleyen gece kalkanı." },
+            { ad: "Aegis of the Legion", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3105.png", aciklama: "Takıma zırh and büyü direnci kazandıran lejyon kalkanı." },
+            { ad: "Bramble Vest", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3076.png", aciklama: "Normal vuruş yapanlara ağır yara uygulayan dikenli yelek." },
+            { ad: "Giant's Belt", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1011.png", aciklama: "Şampiyona fazladan can kazandıran dev kemeri." },
+            { ad: "Chain Vest", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1031.png", aciklama: "Sağlam zırh direnci sağlayan örme zırh." },
+            { ad: "Negatron Cloak", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1057.png", aciklama: "Büyü direncini artıran pelerin." },
+            { ad: "Null-Magic Mantle", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1033.png", aciklama: "Küçük çaplı büyü direnci sağlayan cübbe." },
+            { ad: "Cloth Armor", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1029.png", aciklama: "Temel fiziksel zırh sağlayan kumaş zırh." },
+            { ad: "Ruby Crystal", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1028.png", aciklama: "Temel can puanı artıran yakut kristal." },
+            { ad: "Sapphire Crystal", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1027.png", aciklama: "Temel mana puanı artıran safir kristal." },
+            { ad: "Amplifying Tome", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1058.png", aciklama: "Yetenek gücünü artıran sihirli kitapçık." },
+            { ad: "Blasting Wand", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1026.png", aciklama: "Hatırı sayılır yetenek gücü sağlayan asa." },
+            { ad: "Needlessly Large Rod", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1058.png", aciklama: "Yüksek miktarda yetenek gücü veren büyük sopa." },
+            { ad: "Dagger", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1042.png", aciklama: "Saldırı hızını artıran küçük hançer." },
+            { ad: "Long Sword", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1036.png", aciklama: "Saldırı gücü sağlayan keskin uzun kılıç." },
+            { ad: "Pickaxe", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1037.png", aciklama: "Orta seviye saldırı gücü veren kazma." },
+            { ad: "B.F. Sword", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1038.png", aciklama: "Yüksek miktarda saldırı gücü sağlayan büyük kılıç." },
+            { ad: "Rejuvenation Bead", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1006.png", aciklama: "Can yenileme hızı kazandıran boncuk." },
+            { ad: "Faerie Charm", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1004.png", aciklama: "Mana yenileme hızı kazandıran peri tılsımı." },
+            { ad: "Control Ward", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/2055.png", aciklama: "Görüş sağlayan and rakiplerin totemlerini etkisiz kılan kontrol gözü." },
+            { ad: "Stealth Ward", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3340.png", aciklama: "Çevreyi gözetlemek için yerleştirilen görünmez totem." },
+            { ad: "Farsight Alteration", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3363.png", aciklama: "Uzaktan görüş almayı sağlayan mavi totem." },
+            { ad: "Oracle Lens", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3364.png", aciklama: "Gizli tuzakları and totemleri ortaya çıkaran tarayıcı." },
+            { ad: "Health Potion", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/2003.png", aciklama: "Zamanla can yenileyen temel iksir." },
+            { ad: "Elixir of Iron", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/2138.png", aciklama: "Boyu büyütüp direnç and yavaşlatma direnci veren iksir." },
+            { ad: "Elixir of Sorcery", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/2139.png", aciklama: "Yetenek gücü and gerçek hasar patlaması veren büyücü iksiri." },
+            { ad: "Elixir of Wrath", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/2140.png", aciklama: "Saldırı gücü and can emilimi sağlayan savaş iksiri." },
+            { ad: "Biscuit of Everlasting Will", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/2010.png", aciklama: "Can and mana yenileyen lezzetli bir atıştırmalık bisküvi." },
+            { ad: "Poro Snax", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/2052.png", aciklama: "Howling Abyss'te sevimli Poroları beslemek için kullanılan leziz atıştırmalık." },
+            { ad: "Phage", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3044.png", aciklama: "Saldırı yaptıkça anlık hareket hızı veren balta parçası." },
+            { ad: "Sheen", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3057.png", aciklama: "Yetenek kullanımından sonraki saldırıyı güçlendiren pırıltı." },
+            { ad: "Kindlegem", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3067.png", aciklama: "Can and yetenek hızı veren yakut cevher." },
+            { ad: "Tiamat", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3077.png", aciklama: "Normal saldırılara çevredeki rakiplerin de hasar almasını sağlayan balta." },
+            { ad: "Vampiric Scepter", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1053.png", aciklama: "Can çalma and saldırı gücü veren asa." },
+            { ad: "Serrated Dirk", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3134.png", aciklama: "Zırh deşme özelliği sağlayan keskin hançer." },
+            { ad: "Aether Wisp", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3113.png", aciklama: "Hareket hızı and yetenek gücü sağlayan eter parıltısı." },
+            { ad: "Glacial Buckler", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3112.png", aciklama: "Zırh and mana sağlayan buzul kalkan." },
+            { ad: "Refillable Potion", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/2031.png", aciklama: "Üsse her döndüğünde dolan doldurulabilir iksir." },
+            { ad: "Corrupting Potion", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/2033.png", aciklama: "Rakipleri yakan and zamanla can/mana veren zehirli iksir." },
+            { ad: "Crystalline Bracer", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3801.png", aciklama: "Can and can yenilemesi veren kristal bileklik." },
+            { ad: "Forbidden Idol", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3114.png", aciklama: "İyileştirme gücü and mana yenilemesi sunan yasak put." },
+            { ad: "Bandleglass Mirror", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/4641.png", aciklama: "Yetenek hızı and mana yenilemesi veren ayna." },
+            { ad: "Dark Seal", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1082.png", aciklama: "Az maliyetle yük toplayıp büyüyen karanlık mühür." },
+            { ad: "Cull", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1083.png", aciklama: "Minyon biçerek ekstra altın kasma odaklı çiftçi bıçağı." },
+            { ad: "Doran's Ring", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1056.png", aciklama: "Büyücüler için temel can, mana yenileme and AP sağlayan yüzük." },
+            { ad: "Doran's Blade", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1055.png", aciklama: "Saldırı gücü and can çalma veren klasik Doran kılıcı." },
+            { ad: "Doran's Shield", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1054.png", aciklama: "Zor koridorlar için hasar direncini artıran Doran kalkanı." },
+            { ad: "Boot of Mobility", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3117.png", aciklama: "Savaş dışındayken roket gibi hızlanmayı sağlayan çizmeler." },
+            { ad: "Sorcerer's Shoes", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3020.png", aciklama: "Büyü nüfuzu sağlayan sihirbaz çizmeleri." },
+            { ad: "Plated Steelcaps", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3047.png", aciklama: "Normal saldırı hasarlarını azaltan zırhlı çelik çizme." },
+            { ad: "Mercury's Treads", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3111.png", aciklama: "Büyü direnci and kitle kontrol süresini kısaltan merküri adımları." },
+            { ad: "Berserker's Greaves", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3006.png", aciklama: "Saldırı hızı kazandıran hırslı savaşçı çizmeleri." },
+            { ad: "Ionian Boots of Lucidity", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3158.png", aciklama: "Yetenek hızı and büyücü/kompakt bekleme süresi sunan çizme." },
+            { ad: "Boots of Swiftness", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3009.png", aciklama: "Yavaşlatmalara karşı direnç and sürekli hareket hızı veren çizme." },
+            { ad: "Boots of Speed", resim: "https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/1001.png", aciklama: "Temel hareket hızı sağlayan çıplak ayak çizmeleri." }
         ];
 
-        const kutu = document.getElementById("item-listesi-kapsayici");
-        kutu.innerHTML = "";
+        const eskiSampiyonlar = [
+            { ad: "Ahri", resim: "https://wiki.leagueoflegends.com/en-us/images/Ahri_OriginalSquare_old.png?9c7a7", aciklama: "Eski klasik Ahri." },
+            { ad: "Akali", resim: "akali.jpg", aciklama: "Eski klasik Akali." },
+            { ad: "Alistar", resim: "https://wiki.leagueoflegends.com/en-us/images/Alistar_OriginalSquare_old.png?e9171", aciklama: "Eski klasik Alistar." },
+            { ad: "Amumu", resim: "https://wiki.leagueoflegends.com/en-us/images/Amumu_OriginalSquare_old.png?c3f8d", aciklama: "Eski klasik Amumu." },
+            { ad: "Anivia", resim: "https://wiki.leagueoflegends.com/en-us/images/Anivia_OriginalSquare_old.png?91e9e", aciklama: "Eski klasik Anivia." },
+            { ad: "Annie", resim: "https://wiki.leagueoflegends.com/en-us/images/Annie_OriginalSquare_old.png?8986f", aciklama: "Eski klasik Annie." },
+            { ad: "Ashe", resim: "https://wiki.leagueoflegends.com/en-us/images/Ashe_OriginalSquare_old.png?3c8c3", aciklama: "Eski klasik Ashe." },
+            { ad: "Blitzcrank", resim: "https://wiki.leagueoflegends.com/en-us/images/Blitzcrank_OriginalSquare_old.png?551ee", aciklama: "Eski klasik Blitzcrank." },
+            { ad: "Brand", resim: "https://wiki.leagueoflegends.com/en-us/images/Brand_OriginalSquare_old.png?54368", aciklama: "Eski klasik Brand." },
+            { ad: "Cho'Gath", resim: "https://wiki.leagueoflegends.com/en-us/images/Cho%27Gath_OriginalSquare_old.png?264a2", aciklama: "Eski klasik Cho'Gath." },
+            { ad: "Corki", resim: "https://wiki.leagueoflegends.com/en-us/images/Corki_OriginalSquare_old.png?c9494", aciklama: "Eski klasik Corki." },
+            { ad: "Dr. Mundo", resim: "https://wiki.leagueoflegends.com/en-us/images/Dr._Mundo_OriginalSquare_old.png?151cd", aciklama: "Eski klasik Dr. Mundo." },
+            { ad: "Evelynn", resim: "https://wiki.leagueoflegends.com/en-us/images/Evelynn_OriginalSquare_old.png?8986f", aciklama: "Eski klasik Evelynn." },
+            { ad: "Ezreal", resim: "https://wiki.leagueoflegends.com/en-us/images/Ezreal_OriginalSquare_old.png?f3720", aciklama: "Eski klasik Ezreal." },
+            { ad: "Fiddlesticks", resim: "https://wiki.leagueoflegends.com/en-us/images/Fiddlesticks_OriginalSquare_old.png?09e46", aciklama: "Eski klasik Fiddlesticks." },
+            { ad: "Gangplank", resim: "https://wiki.leagueoflegends.com/en-us/images/Gangplank_OriginalSquare_old.png?ba20f", aciklama: "Eski klasik Gangplank." },
+            { ad: "Garen", resim: "https://wiki.leagueoflegends.com/en-us/images/Garen_OriginalSquare_old.png?215f4", aciklama: "Eski klasik Garen." },
+            { ad: "Gragas", resim: "https://wiki.leagueoflegends.com/en-us/images/Gragas_OriginalSquare_old.png?ee6d6", aciklama: "Eski klasik Gragas." },
+            { ad: "Heimerdinger", resim: "https://wiki.leagueoflegends.com/en-us/images/Heimerdinger_OriginalSquare_old.png?01c47", aciklama: "Eski klasik Heimerdinger." },
+            { ad: "Janna", resim: "https://wiki.leagueoflegends.com/en-us/images/Janna_OriginalSquare_old.png?81836", aciklama: "Eski klasik Janna." },
+            { ad: "Jarvan IV", resim: "https://wiki.leagueoflegends.com/en-us/images/Jarvan_IV_OriginalSquare_old.png?894f5", aciklama: "Eski klasik Jarvan IV." },
+            { ad: "Jax", resim: "https://wiki.leagueoflegends.com/en-us/images/Jax_OriginalSquare_old.png?75b17", aciklama: "Eski klasik Jax." },
+            { ad: "Karthus", resim: "https://wiki.leagueoflegends.com/en-us/images/Karthus_OriginalSquare_old.png?a0886", aciklama: "Eski klasik Karthus." },
+            { ad: "Kassadin", resim: "https://wiki.leagueoflegends.com/en-us/images/Kassadin_OriginalSquare_old.png?d9df6", aciklama: "Eski klasik Kassadin." },
+            { ad: "Katarina", resim: "https://wiki.leagueoflegends.com/en-us/images/Katarina_OriginalSquare_old.png?1411c", aciklama: "Eski klasik Katarina." },
+            { ad: "Kayle", resim: "https://wiki.leagueoflegends.com/en-us/images/Kayle_OriginalSquare_old4.png?969b2", aciklama: "Eski klasik Kayle." },
+            { ad: "Kennen", resim: "kennen.png", aciklama: "Eski klasik Kennen." },
+            { ad: "Kog'Maw", resim: "https://wiki.leagueoflegends.com/en-us/images/Kog%27Maw_OriginalSquare_old.png?4f1e6", aciklama: "Eski klasik Kog'Maw." },
+            { ad: "Lee Sin", resim: "https://wiki.leagueoflegends.com/en-us/images/Lee_Sin_OriginalSquare_old.png?ceb17", aciklama: "Eski klasik Lee Sin." },
+            { ad: "Leona", resim: "https://wiki.leagueoflegends.com/en-us/images/Leona_OriginalSquare.png?9c355", aciklama: "Eski klasik Leona." },
+            { ad: "Lulu", resim: "https://wiki.leagueoflegends.com/en-us/images/Lulu_OriginalSquare.png?18777", aciklama: "Eski klasik Lulu." },
+            { ad: "Lux", resim: "lux.png", aciklama: "Eski klasik Lux." },
+            { ad: "Malphite", resim: "https://wiki.leagueoflegends.com/en-us/images/Malphite_OriginalSquare_old.png?b7b91", aciklama: "Eski klasik Malphite." },
+            { ad: "Malzahar", resim: "https://wiki.leagueoflegends.com/en-us/images/Malzahar_OriginalSquare_old.png?edd16", aciklama: "Eski klasik Malzahar." },
+            { ad: "Master Yi", resim: "https://wiki.leagueoflegends.com/en-us/images/Master_Yi_OriginalSquare_old.png?c86fc", aciklama: "Eski klasik Master Yi." },
+            { ad: "Miss Fortune", resim: "https://wiki.leagueoflegends.com/en-us/images/Miss_Fortune_OriginalSquare_old.png?062fd", aciklama: "Eski klasik Miss Fortune." },
+            { ad: "Morgana", resim: "https://wiki.leagueoflegends.com/en-us/images/Morgana_OriginalSquare_old.png?bd062", aciklama: "Eski klasik Morgana." },
+            { ad: "Nasus", resim: "https://wiki.leagueoflegends.com/en-us/images/Nasus_OriginalSquare_old.png?5f891", aciklama: "Eski klasik Nasus." },
+            { ad: "Nidalee", resim: "https://wiki.leagueoflegends.com/en-us/images/Nidalee_OriginalSquare_old.png?0b37a", aciklama: "Eski klasik Nidalee." },
+            { ad: "Nunu", resim: "https://wiki.leagueoflegends.com/en-us/images/Nunu_OriginalSquare_old.png?7bfad", aciklama: "Eski klasik Nunu." },
+            { ad: "Olaf", resim: "https://wiki.leagueoflegends.com/en-us/images/Olaf_OriginalSquare_old.png?b2c61", aciklama: "Eski klasik Olaf." },
+            { ad: "Pantheon", resim: "https://wiki.leagueoflegends.com/en-us/images/Pantheon_OriginalSquare_old.png?7e1f0", aciklama: "Eski klasik Pantheon." },
+            { ad: "Rammus", resim: "https://wiki.leagueoflegends.com/en-us/images/Rammus_OriginalSquare_old.png?c2977", aciklama: "Eski klasik Rammus." },
+            { ad: "Ryze", resim: "https://wiki.leagueoflegends.com/en-us/images/Ryze_OriginalSquare_old.png?ddcb7", aciklama: "Eski klasik Ryze." },
+            { ad: "Shaco", resim: "https://wiki.leagueoflegends.com/en-us/images/Shaco_OriginalSquare_old.png?105a7", aciklama: "Eski klasik Shaco." },
+            { ad: "Shen", resim: "shen.png", aciklama: "Eski klasik Shen." },
+            { ad: "Sion", resim: "https://wiki.leagueoflegends.com/en-us/images/Sion_OriginalSquare_old.png?8709b", aciklama: "Eski klasik Sion." },
+            { ad: "Singed", resim: "https://wiki.leagueoflegends.com/en-us/images/Singed_OriginalSquare_old.png?3add2", aciklama: "Eski klasik Singed." },
+            { ad: "Sivir", resim: "https://wiki.leagueoflegends.com/en-us/images/Sivir_OriginalSquare_old2.png?79203", aciklama: "Eski klasik Sivir." },
+            { ad: "Skarner", resim: "https://wiki.leagueoflegends.com/en-us/images/Skarner_OriginalSquare_old.png?b45c6", aciklama: "Eski klasik Skarner." },
+            { ad: "Sona", resim: "https://wiki.leagueoflegends.com/en-us/images/Sona_OriginalSquare_old.png?f9282", aciklama: "Eski klasik Sona." },
+            { ad: "Soraka", resim: "https://wiki.leagueoflegends.com/en-us/images/Soraka_OriginalSquare_old.png?cfe43", aciklama: "Eski klasik Soraka." },
+            { ad: "Taric", resim: "https://wiki.leagueoflegends.com/en-us/images/Taric_OriginalSquare_old.png?cd876", aciklama: "Eski klasik Taric." },
+            { ad: "Teemo", resim: "https://wiki.leagueoflegends.com/en-us/images/Teemo_OriginalSquare_old.png?05779", aciklama: "Eski klasik Teemo." },
+            { ad: "Tristana", resim: "https://wiki.leagueoflegends.com/en-us/images/Tristana_OriginalSquare_old.png?be4b6", aciklama: "Eski klasik Tristana." },
+            { ad: "Tryndamere", resim: "https://wiki.leagueoflegends.com/en-us/images/Tryndamere_OriginalSquare_old.png?45392", aciklama: "Eski klasik Tryndamere." },
+            { ad: "Twisted Fate", resim: "https://wiki.leagueoflegends.com/en-us/images/Twisted_Fate_OriginalSquare_old.png?5d5c4", aciklama: "Eski klasik Twisted Fate." },
+            { ad: "Twitch", resim: "https://wiki.leagueoflegends.com/en-us/images/Twitch_OriginalSquare_old2.png?022a6", aciklama: "Eski klasik Twitch." },
+            { ad: "Vayne", resim: "https://wiki.leagueoflegends.com/en-us/images/Vayne_OriginalSquare_old.png?8b40a", aciklama: "Eski klasik Vayne." },
+            { ad: "Veigar", resim: "https://wiki.leagueoflegends.com/en-us/images/Veigar_OriginalSquare_old.png?1411c", aciklama: "Eski klasik Veigar." },
+            { ad: "Warwick", resim: "https://wiki.leagueoflegends.com/en-us/images/Warwick_OriginalSquare_old.png?2ce71", aciklama: "Eski klasik Warwick." },
+            { ad: "Wukong", resim: "https://wiki.leagueoflegends.com/en-us/images/Wukong_OriginalSquare_old.png?bd940", aciklama: "Eski klasik Wukong." },
+            { ad: "Zilean", resim: "https://wiki.leagueoflegends.com/en-us/images/Zilean_OriginalSquare_old.png?cf4e8", aciklama: "Eski klasik Zilean." }
+        ];
+        function sekmeDegis(event, sekmeId) {
+            const icerikler = document.querySelectorAll('.sekme-icerik');
+            icerikler.forEach(ic => ic.classList.remove('aktif-icerik'));
 
-        eskiItemler.forEach(item => {
-            kutu.innerHTML += `
-                <div class="item-karti">
-                    <img src="${item.resim}" alt="${item.ad}" style="width:60px; height:60px; border: 2px solid #7a5828; border-radius: 6px; background-color: #2b1d0c;" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/3070.png';">
-                    <div class="tooltip-aciklama">
-                        <strong>${item.ad}</strong><br>
-                        ${item.aciklama}
-                    </div>
-                </div>
-            `;
+            const butonlar = document.querySelectorAll('.sekme-btn');
+            butonlar.forEach(btn => btn.classList.remove('aktif'));
+
+            document.getElementById(sekmeId).classList.add('aktif-icerik');
+            event.currentTarget.classList.add('aktif');
+        }
+
+        // Şampiyonları yükleme
+        const champGrid = document.getElementById('champGrid');
+        eskiSampiyonlar.forEach(champ => {
+            const card = document.createElement('div');
+            card.className = 'champ-card';
+            card.innerHTML = `<img src="${champ.resim}" alt="${champ.ad}">`;
+            card.onclick = () => {
+                document.getElementById('previewImg').src = champ.resim;
+                document.getElementById('previewName').innerText = champ.ad;
+                document.getElementById('previewDesc').innerText = champ.aciklama;
+            };
+            champGrid.appendChild(card);
         });
 
-        function sekmeDegis(evt, icerikId) {
-            let icerikler = document.getElementsByClassName("sekme-icerik");
-            for (let i = 0; i < icerikler.length; i++) {
-                icerikler[i].classList.remove("aktif-icerik");
-            }
-
-            let butonlar = document.getElementsByClassName("sekme-btn");
-            for (let i = 0; i < butonlar.length; i++) {
-                butonlar[i].classList.remove("aktif");
-            }
-
-            document.getElementById(icerikId).classList.add("aktif-icerik");
-            evt.currentTarget.classList.add("aktif");
+        // İlk şampiyonu varsayılan seçili yap
+        if (eskiSampiyonlar.length > 0) {
+            document.getElementById('previewImg').src = eskiSampiyonlar[0].resim;
+            document.getElementById('previewName').innerText = eskiSampiyonlar[0].ad;
+            document.getElementById('previewDesc').innerText = eskiSampiyonlar[0].aciklama;
         }
+
+        // İtemleri yükleme
+        const itemListesi = document.getElementById('item-listesi-kapsayici');
+        eskiItemler.forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item-karti';
+            itemDiv.innerHTML = `
+                    <img src="${item.resim}" alt="${item.ad}">
+                    <div class="tooltip-aciklama"><strong>${item.ad}</strong><br>${item.aciklama}</div>
+                `;
+            itemListesi.appendChild(itemDiv);
+        });
     </script>
 </body>
 </html>

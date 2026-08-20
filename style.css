@@ -1,19 +1,10 @@
-﻿.bilgilendirme {
-    text-align: center;
-    padding-top: 65px;
-    padding-left: 65px;
-    padding-right: 65px;
-    padding-bottom:65px;
-    font-size:20px;
-    font-family: Helvetica, sans-serif
-}
-
+﻿
 .lolbody {
-        background-color: #034f84;
-        background-attachment: fixed;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
+    background-color: #221f40;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .valobody {
     background-color: #FF4655;
@@ -21,6 +12,9 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    background: linear-gradient(to bottom, #ff4655, #0f1923 80%);
+    min-height:140vh;
+    margin:0px;
 }
 
 .title {
@@ -47,7 +41,7 @@
         z-index: 10;
     }
 .valoimage img {
-    width: 600px;
+    width: 100px;
     height: 380px;
     display: inline-block;
     transition: transform 0.3s ease;
@@ -67,23 +61,50 @@ body.valorantespor {
     padding: 0;
     background-color: #FF4655;
 }
+.espor-ana-kriter {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.valorant-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; 
+    z-index: 1; 
+    object-fit: fill;
+}
+
 .valorant-yayin-kutusu {
     position: relative;
     width: 850px;
     height: 550px;
-    margin: 60px auto;
 }
+
+   
     .valorant-yayin-kutusu iframe {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 810px;
-        height: 475px;
+        top: 25px; 
+        left: 20px;
+        width: 800px;
+        height: 500px;
         border: none;
-        z-index: 1;
-        padding-left: 20px;
-        padding-top: 30px;
+        z-index: 2;
     }
+
+
+.valorant-chat-kutusu iframe {
+    height: 550px;
+    width: 350px;
+    border: none;
+    border-radius: 8px;
+}
 
 .valorant-frame {
     position: absolute;
@@ -94,17 +115,29 @@ body.valorantespor {
     z-index: 2;
     pointer-events: none;
 }
+
 body.lolespor {
     margin: 0;
     padding: 0;
-    background-color: #146eb4;
+    background-color: #091428;
 }
 
+
+.espor-ana-kriter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; 
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+/* LOL Yayın Kutusu */
 .lol-yayin-kutusu {
     position: relative;
     width: 850px;
     height: 550px;
-    margin: 60px auto;
+    margin: 0;
 }
 
     .lol-yayin-kutusu iframe {
@@ -115,10 +148,11 @@ body.lolespor {
         height: 510px;
         border: none;
         z-index: 1;
-        padding-left:20px;
-        padding-top:20px;
+        padding-left: 20px;
+        padding-top: 20px;
     }
 
+/* LOL Çerçeve Tasarımı */
 .lol-frame {
     position: absolute;
     top: 0;
@@ -126,13 +160,515 @@ body.lolespor {
     width: 100%;
     height: 100%;
     z-index: 2;
-    pointer-events: none;
+    pointer-events: none; 
+    object-fit: fill;
 }
-.mapsimg{
-    width:100px;
-    height:100px;
+
+/* LOL Chat Kutusu */
+.lol-chat-kutusu {
+    margin: 0;
+    padding: 0;
+}
+
+    .lol-chat-kutusu iframe {
+        height: 550px;
+        width: 350px;
+        border: none;
+        border-radius: 8px;
+        display: block;
+    }
+.maps {
+    background-color: #001a33;
+}
+.mapsimg {
+    position: relative;
+    width:800px;
+    height: 150px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    transition:all 0.4s ease;
+    margin:0 auto 10px auto;
+}
+
+    .mapsimg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+.map-info-box {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 15px 20px;
+    border-radius: 6px;
+    max-width: 500px;
+    opacity: 0; 
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: 10;
+}
+
+    .map-info-box h1 {
+        font-size: 20px;
+        margin-bottom: 8px;
+        color: #000000;
+        font-family:Arial;
+    }
+
+    .map-info-box p {
+        font-size: 14px;
+        color: #333333;
+        line-height: 1.4;
+        font-family: Arial;
+    }
 
 
+.mapsimg:hover .map-info-box {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mapsimg:hover img {
+    height: 800px;
+    object-fit: contain; 
+    filter: brightness(0.6); 
+    position:center;
+}
+.mapsimg:hover {
+    height: 450px;
+    width: 1000px;
+    max-width: 1000px;
+    margin: 0 auto 10px auto;
+}
+body.agnets{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.agnets {
+    position: relative;
+    margin: 0 !important;
+    padding: 40px 20px;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+    .agnets img {
+        width: 750px;
+        height: auto;
+        display: block;
+        margin-left: -150px;
+        margin-top: -150px;
+        border-radius: 8px;
+        padding-bottom: 30px;
+        background: transparent !important;
+        box-sizing: border-box;
+    }
+
+.agents-page {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+    
+    .agents-page > .agnets {
+        margin: 0 !important;
+        width: 100%;
+        box-sizing: border-box;
+    }
+.valocomps h1 {
+    font-size: 50px;
+    font-family: Arial;
+    text-align: center;
+}
+
+.compimg {
+    height: 350px;
+    width: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.button {
+    display: inline-block;
+    background-color: #ffffff;
+    color: #000000;
+    text-decoration: none;
+    padding: 12px 20px;
+    margin: 8px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.button-container {
+    text-align: center;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 10px;
+}
+
+.valocomps {
+    background-color: #ba3a46;
+    background: linear-gradient(to bottom, #ff4655, #0f1923 80%);
+    min-height: 200vh;
+}
+
+html {
+    scroll-behavior: smooth;
+}
 
 
+.comps {
+    text-align: center;
+    margin-top: 80px;
+    padding-bottom: 40px;
+}
+
+
+.valocomps .image-gallery {
+    display: flex;
+    
+    align-items: center;
+    gap: 150px;
+}
+.compimg{
+    height:auto;
+    width:800px;
+}
+
+.valocomps .small-images {
+    display: flex;
+    flex-direction: row;
+    gap: 50px; 
+    padding-left:40px;
+    padding-bottom:150px;
+}
+
+
+.valocomps .role-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+
+.valocomps .role-title {
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+
+.valocomps .small-images img {
+    height: 60px;
+    width: 60px;
+    object-fit: contain;
+    border: none;
+    transition: transform 0.2s;
+}
+
+    .valocomps .small-images img:hover {
+        transform: scale(1.1);
+    }
+
+
+.valocomps .agent-name {
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-top: 50px;
+}
+
+
+.anaekran {
+    background: linear-gradient(to right, #221f40 0%, #221f40 46%, #ba3a46 61%, #ba3a46 100%);
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    margin: 0;
+}
+
+
+.tum-icerik {
+    position: absolute;
+    top: 35%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.ana-baslik {
+    font-size: 36px;
+    font-family: Arial, sans-serif;
+    color: black;
+    text-align: center;
+    margin-bottom: 25px; 
+    margin-top: 0;
+}
+
+.oyunlar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:150px;
+    gap: 180px; 
+}
+
+.anaekranimg1, .anaekranimg2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+    .anaekranimg1 h2, .anaekranimg2 h2 {
+        font-size: 24px;
+        font-family: Arial, sans-serif;
+        color: white;
+        margin-bottom: 15px;
+        margin-top: 0;
+    }
+
+    .anaekranimg1 img, .anaekranimg2 img {
+        width: 180px;
+        height: auto;
+    }
+    .lolnostalgia {
+    background-image: url('./lolnostagiaframe.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 40px;
+}
+
+/* SEKME MENÜ */
+.sekme-menu {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+    justify-content: center;
+}
+
+.sekme-btn {
+    background: #d9c49a;
+    border: 1px solid #7a5828;
+    color: #3b2611;
+    padding: 10px 25px;
+    font-family: serif;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px 4px 0 0;
+}
+
+    .sekme-btn:hover {
+        background: #e6d5b2;
+    }
+
+    .sekme-btn.aktif {
+        background: #7a5828;
+        color: #fff;
+    }
+
+/* İÇERİK */
+.sekme-icerik {
+    display: none;
+}
+
+    .sekme-icerik.aktif-icerik {
+        display: block;
+    }
+
+/* ANA ŞAMPİYON ALANI */
+.champ-select-container {
+    display: flex;
+    gap: 20px;
+    width: 950px;
+    max-width: 95%;
+    background: rgba(15, 15, 15, 0.88);
+    border: 2px solid #7a5828;
+    border-radius: 8px;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: serif;
+    margin: 20px auto;
+}
+
+/* SOL TARAF */
+.champ-grid-section {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.champ-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
+    gap: 8px;
+    max-height: 450px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.champ-card {
+    background: #000;
+    border: 1px solid #4a3318;
+    cursor: pointer;
+    transition: 0.15s;
+    text-align: center;
+    border-radius: 3px;
+    overflow: hidden;
+    height: 55px;
+}
+
+    .champ-card:hover {
+        border-color: #f39c12;
+        transform: scale(1.05);
+    }
+
+    .champ-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+/* SAĞ ÖNİZLEME */
+.champ-preview-panel {
+    flex: 1.2;
+    min-width: 360px;
+    background: linear-gradient(135deg, #1f1b16 0%, #0c0a08 100%);
+    border: 1px solid #7a5828;
+    border-radius: 6px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: #d9c49a;
+}
+
+.preview-banner {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #a67c52;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+
+.preview-img-container {
+    width: 250px; 
+    height: 250px; 
+    border: 2px solid #d9c49a;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 0 auto 15px auto;
+    background: #000;
+    box-shadow: 0 0 15px rgba(0,0,0,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .preview-img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+    }
+
+/* İSİM */
+.champ-preview-panel h2 {
+    font-size: 20px;
+    margin: 5px 0 10px;
+    color: #f39c12;
+}
+
+/* AÇIKLAMA */
+.champ-preview-panel p {
+    font-size: 13px;
+    color: #b0a289;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ITEMLER */
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    gap: 10px;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.item-karti {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #7a5828;
+    background: #000;
+    border-radius: 4px;
+    overflow: visible;
+}
+
+    .item-karti img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.tooltip-aciklama {
+    display: none;
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #111;
+    color: #d9c49a;
+    padding: 5px;
+    border: 1px solid #7a5828;
+    font-size: 11px;
+    width: 140px;
+    z-index: 100;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.item-karti:hover .tooltip-aciklama {
+    display: block;
 }
